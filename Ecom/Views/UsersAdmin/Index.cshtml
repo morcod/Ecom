@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Ecom.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Utilisateurs";
+}
+
+<h2>@ViewBag.Title </h2>
+<p>
+    @Html.ActionLink("Ajouter un administrateur", "Create", null, new { @class = "btn btn-success" })
+</p>
+<div class="table-container">
+    <table class="table">
+        <tr>
+            <th>
+                Adresse électronique
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.UserName)
+
+    </td>
+    <td>
+        @if (item.Roles.Count != 0)
+        {
+<text>Administrateur</text> }
+else
+{
+<text> Client</text>}
+
+    </td>
+    <td>
+        @using (Html.BeginForm("Delete", "UsersAdmin", new { id = item.Id }))
+        {
+    @Html.AntiForgeryToken()
+                        <input type="submit" value="Supprimer" class="btn btn-danger" />}
+    </td>
+</tr>}
+
+    </table>
+</div>

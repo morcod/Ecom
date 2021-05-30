@@ -1,0 +1,54 @@
+﻿@model PagedList.IPagedList<Ecom.Models.Size>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    .pagination-div {
+        margin-bottom: 50px;
+    }
+</style>
+@{ ViewBag.Title = "Tailles"; }
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Ajouter", "Create", null, new { @class = "btn btn-success" })
+</p>
+<div class="col-sm-offset-3 col-sm-6">
+
+    <table class="table">
+        <tr>
+            <th>
+                Nom
+            </th>
+            <th colspan="2"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+                </td>
+                <td>
+
+                    @using (Html.BeginForm("Delete", "Sizes", new { id = item.ID }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" value="Supprimer" class="btn btn-danger" />
+
+                    }
+                </td>
+            </tr>
+}
+
+    </table>
+    </div>
+    <div class="col-xs-12 text-center pagination-div">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>

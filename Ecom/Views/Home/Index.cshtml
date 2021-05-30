@@ -1,0 +1,522 @@
+﻿@model PagedList.IPagedList<Ecom.Models.Item>
+@{ ViewBag.Title = "Boutique"; }
+<link href="~/Content/animate.min.css" rel="stylesheet" />
+
+
+<link href="~/Content/lightslider.css" rel="stylesheet" />
+
+<style>
+
+    .box {
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 25px;
+    }
+
+    .slide-img {
+        height: 450px;
+        position: relative;
+    }
+
+        .slide-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-sizing: border-box;
+        }
+
+    .detail-box {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        font-family: calibri;
+    }
+
+    .type {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .type a {
+            color: #222222;
+            margin: 5px 0px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding-right: 8px;
+        }
+
+        .type span {
+            color: rgba(26,26,26,0.5);
+        }
+
+    .price {
+        color: #333333;
+        font-weight: 600;
+        font-size: 1.1rem;
+        font-family: poppins;
+        letter-spacing: 0.5px;
+    }
+
+    .overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        width: 100%;
+        height: 100%;
+        background-color: rgba(92,95,236,0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .buy-btn {
+        width: 160px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #FFFFFF;
+        color: #252525;
+        font-weight: 700;
+        letter-spacing: 1px;
+        font-family: calibri;
+        border-radius: 20px;
+        box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+    }
+
+        .buy-btn:hover {
+            color: #FFFFFF;
+            background-color: #f15fa3;
+            transition: all ease 0.3s;
+        }
+
+    .overlay {
+        visibility: hidden;
+    }
+
+    .slide-img:hover .overlay {
+        visibility: visible;
+        animation: fade 0.5s;
+    }
+
+    @@keyframes fade {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .slider {
+        width: 100%;
+        height: 100vh;
+        /*    display: flex;
+    */ justify-content: center;
+        align-items: center;
+        display: block;
+    }
+
+    h2 {
+        margin: 15px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+
+
+
+
+
+
+
+    #sidebar {
+        border-radius: 10px;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    li .btn {
+        padding-top: 11px;
+        color: #777;
+        border: 0 !important;
+        font-size: 20px;
+        width: auto;
+    }
+
+    .navbar {
+        margin: 0;
+    }
+
+        .navbar .form-group input {
+            border: none !important;
+        }
+
+    #sidebar div {
+        border: 1px solid #dddd;
+        background-color: white;
+        padding: 20px;
+        font-size: 60px;
+        text-align: center;
+    }
+
+    li .btn:hover {
+        background-color: transparent;
+    }
+
+    .proPrice span {
+        display: block;
+    }
+
+    #pCount {
+        padding: 7px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: red;
+        font-family: cursive;
+        border-radius: 50%;
+    }
+
+    .carousel-inner .item {
+        height: 360px;
+        width: 100%;
+    }
+
+
+
+
+    #img-container {
+        display: inline-block;
+        margin: 20px;
+        border: 3px solid #D10024;
+        overflow: hidden;
+        border-radius: 25px;
+        width: 90%;
+    }
+
+        #img-container img {
+            display: block;
+            height: 240px;
+            transition: transform .4s;
+            width: 100%;
+        }
+
+        #img-container:hover img {
+            transform: scale(1.3);
+            transform-origin: 50% 50%;
+        }
+   
+
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+        }
+
+            #countdown span:first-child {
+                font-size: 48px;
+                font-weight: 600;
+                display: block;
+                color: #fff;
+            }
+
+            #countdown span:last-child {
+                font-size: 12px;
+                font-weight: 600;
+                display: block;
+                color: #fff;
+            }
+
+        .countdown-container {
+            background: url(/img/countdown-bg.jpg) fixed center;
+            background-size: cover;
+            padding: 50px;
+            text-align: center;
+        }
+
+            .countdown-container > span {
+                padding: 10px;
+                font-size: 40px;
+                display: block;
+                color: black;
+                font-weight: 900;
+            }
+
+        #countdown div {
+            margin: 0 10px 10px;
+            text-align: center;
+            padding: 5px 24px;
+            background-color: #333;
+            width: fit-content;
+            margin: auto;
+        }
+    }
+
+    #countdown span:first-child {
+        font-size: 48px;
+        font-weight: 600;
+        display: block;
+        color: #fff;
+    }
+
+    #countdown span:last-child {
+        font-size: 12px;
+        font-weight: 600;
+        display: block;
+        color: #fff;
+    }
+
+    .countdown-container > span {
+        padding: 10px;
+        font-size: 40px;
+        display: block;
+        color: black;
+        font-weight: 900;
+    }
+
+    #countdown div {
+        margin: 0 10px 10px;
+        text-align: center;
+        padding: 5px 24px;
+        background-color: #333;
+    }
+
+    .countdown-container {
+        background: url(/img/countdown-bg.jpg) fixed center;
+        background-size: cover;
+        padding: 50px;
+        text-align: center;
+    }
+    .thumbnail a.btn {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+</style>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#autoWidth').lightSlider({
+            autoWidth: true,
+            loop: true,
+            onSliderLoad: function () {
+                $('#autoWidth').removeClass('cS-hidden');
+            }
+        });
+
+    });
+</script>
+
+<div class="container">
+    <h2>Nos Collections</h2>
+    <div class="col-md-4">
+        <div id="img-container">
+            <a href="@Url.Action("","Store")">
+                
+                <img src="@Url.Action("RenderImage", new { nbr = 0 })" alt="" style="width:100%">
+            </a>
+
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="img-container">
+            <a href="@Url.Action("","Store")">
+                <img src="@Url.Action("RenderImage", new { nbr = 1 })" alt="" style="width:100%">
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="img-container">
+            <a href="@Url.Action("","Store")">
+                <img src="@Url.Action("RenderImage", new { nbr = 2 })" alt="" style="width:100%">
+            </a>
+        </div>
+    </div>
+</div>
+<div class="countdown-container">
+    <div id="countdown">
+
+    </div>
+    <span>
+        @if (ViewBag.CountDown.Message != null)
+        {
+            @ViewBag.CountDown.Message
+        }
+        else
+        {
+            <p>Bonjour</p>
+        }
+    </span>
+
+</div>
+
+<div class="container">
+
+
+    <h2>Tendance</h2>
+    <section class="slider">
+
+
+        <ul id="autoWidth" class="cs-hidden">
+
+            @foreach (var item in Model)
+            {
+                @:<li class="item-a">
+                    <!--box-slider--------------->
+                    <div class="box">
+                        <!--img-box---------->
+                        <div class="slide-img">
+                            @if (item.InternalImage != null)
+                            {
+                            <img src="@Url.Action("RenderProductImage", new { id = item.ID })" alt="" style="width:100%">
+                            }
+                                <!--overlayer---------->
+                            <div class="overlay">
+                                <!--buy-btn------>
+                                <a href="@Url.Action("Details","Items", new { id = item.ID })" class="buy-btn">
+                                    Acheter
+                                </a>
+                            </div>
+                        </div>
+                        <!--detail-box--------->
+                        <div class="detail-box">
+                            <!--type-------->
+                            <div class="type">
+                                <a href="#">@Html.DisplayFor(modelItem => item.Name)</a>
+                                <span>@Html.DisplayFor(modelItem => item.Catagorie.Name)</span>
+                            </div>
+                            <!--price-------->
+                            <a href="#" class="price">@Html.DisplayFor(modelItem => item.Price)  DH</a>
+
+                       @: </div>
+
+                  @:  </div>
+                @:</li>
+            }
+
+
+        </ul>
+    </section>
+
+
+
+
+
+
+    <div class="row" style="margin-bottom: 20px;">
+
+        <h2>nouveauté</h2>
+        @foreach (var item in Model.Reverse())
+        {
+            
+                decimal percentage = 0;
+                if (item.OldPrice != 0)
+                {
+                    percentage = (item.OldPrice - item.Price) / item.OldPrice * 100;
+                }
+
+           
+            <div class="col-sm-3 col-md-3">
+                <div class="thumbnail">
+                    <span class=" proPriceDiscount  discount-form"> @Math.Round(percentage, 2) % </span>
+                    <a href="@Url.Action("Details","Items", new { id = item.ID })">
+                        @if (item.InternalImage != null)
+                        {
+                            <img src="@Url.Action("RenderProductImage", new { id = item.ID })" />
+                        }
+                    </a>
+                    <div class="caption">
+                        <div class="probrand">@Html.DisplayFor(modelItem => item.Brand.Name)</div>
+                        <div class="proName">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <div class="proPrice">
+                            @Html.DisplayFor(modelItem => item.Price) DH
+                        </div>
+                    </div>
+                    <a href="" class="AddLink btn btn-success"
+                       data-id="@Html.DisplayFor(modelItem => item.ID)">
+                        <i class="lni lni-cart"></i>
+                    </a>
+                </div>
+            </div>
+        }
+
+
+
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+
+
+
+</div>
+ 
+<script>
+    var countDownDate = new Date(@ViewBag.CountDown.CountDownDate.Month+"/"+@ViewBag.CountDown.CountDownDate.Day+"/"+@ViewBag.CountDown.CountDownDate.Year).getTime();
+
+    var x = setInterval(function () {
+
+        var now = new Date().getTime();
+
+        var distance = countDownDate - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML = "<div><span>" + days + "</span><span> Jours </span></div><div><span>" + hours + "</span><span>Heures </span></div><div><span>"
+            + minutes + "</span><span>Minutes </span></div><div><span>" + seconds + "</span><span>Secondes </span></div>";
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countdown").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+</script>

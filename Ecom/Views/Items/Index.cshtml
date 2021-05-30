@@ -1,0 +1,231 @@
+﻿@model PagedList.IPagedList<Ecom.Models.Item>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{ ViewBag.Title = "Articles"; }
+
+<style>
+
+    .bs-docs-section {
+        padding-top: 20px;
+    }
+
+    .pagination-div {
+        margin-bottom: 50px;
+    }
+
+    a.btn {
+        min-width: 125px;
+    }
+
+    .pagination-container {
+        margin-bottom: 70px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
+
+    .card a.btn {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    a {
+        color: inherit
+    }
+
+        a:hover {
+            text-decoration: none;
+            color: inherit
+        }
+
+    .card a.btn:hover {
+        opacity: 0.7;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+@*<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".AddLink").click(function () {
+            // Get the id from the link
+            var recordToAdd = $(this).attr("data-id");
+            if (recordToAdd != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/AddToCart", { "id": recordToAdd },
+                    function (data) {
+                        $('#cart-status').text(data.CartCount);
+                    });
+            }
+        });
+    });
+</script>*@
+
+
+
+
+
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="form-group">
+        @Html.ActionLink("Ajouter", "Create", null, new { @class = "btn btn-success" })
+    </div>
+
+}
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="table-container">
+        <table class="table">
+            <tr>
+
+                <th>
+                    @Html.ActionLink("Nom", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+                <th>
+                    Catégorie
+                </th>
+                <th>
+                    Catégorie mère
+                </th>
+                <th>
+                    Marque
+                </th>
+                <th>
+                    Taille
+                </th>
+                <th>
+                    @Html.ActionLink("Prix", "Index", new { sortOrder = ViewBag.PriceSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+                <th colspan="4">
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Catagorie.Name)
+                    </td>
+                    <td>
+                        @if (item.Catagorie.ParentName == null)
+                        {
+                            <p>___</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Catagorie.ParentName)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size.Name)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+
+                    <td>
+                        <a href="#" class="AddLink btn btn-success"
+                           data-id="@item.ID">
+                            Ajouter au panier
+                        </a>
+                    </td>
+
+                    <!--@Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = item.ID }, new { htmlAttributes = new { @data_toggle = "modal", @data_target = "#myModal" } })-->
+                    <td>
+
+                        @Html.ActionLink("Détails", "Details", new { id = item.ID }, new { @class = "btn btn-warning" })
+                    </td>
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <td>
+                            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "Items", new { id = item.ID }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="submit" value="Supprimer" class="btn btn-danger" />
+
+                            }
+                        </td>
+
+                    }
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+}
+else
+{
+
+
+    foreach (var item in Model)
+    {
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <a href="@Url.Action("Details", new { id = item.ID })">
+                <div class="card">
+                    @if (item.InternalImage != null)
+                    {
+                        <img src="@Url.Action("RenderImage", new { id = item.ID })" alt="" style="width:100%">
+                    }
+                    <h1>@Html.DisplayFor(modelItem => item.Name)</h1>
+                    <p class="price">@Html.DisplayFor(modelItem => item.Price) DH</p>
+                    <p> @Html.DisplayFor(modelItem => item.Catagorie.Name)</p>
+                    <p> @Html.DisplayFor(modelItem => item.Brand.Name)</p>
+
+                    <p>
+                        <a href="#" class="AddLink btn btn-success"
+                           data-id="@item.ID">
+                            <i class="lni lni-cart"></i>
+                        </a> <!--@Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = item.ID }, new { htmlAttributes = new { @data_toggle = "modal", @data_target = "#myModal" } })-->
+                    </p>
+                </div>
+            </a>
+
+        </div>
+
+
+    }
+}
+
+<br />
+<div class="col-xs-12 text-center pagination-div" ">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>

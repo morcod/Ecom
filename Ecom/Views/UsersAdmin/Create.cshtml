@@ -1,0 +1,48 @@
+﻿@model Ecom.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Ajouter un administrateur";
+}
+<style>
+    .form-horizontal {
+        background-color: white;
+        padding: 40px;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal col-sm-offset-4 col-sm-4", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div>
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+            @Html.ValidationMessageFor(model => model.Email, "Email invalide", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Mot de passe" })
+            @Html.ValidationMessageFor(model => model.Email, "Le mot de passe doit contenir au moins 6 caractères", new { @class = "text-danger" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmer le mot de passe" })
+            @Html.ValidationMessageFor(model => model.Email, "Mot de passe incorrect", new { @class = "text-danger" })
+        </div>
+    </div>
+
+   
+    <div class="form-group">
+        <div class="text-center">
+            <input type="submit" class="btn btn-success" value="Ajouter" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

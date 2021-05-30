@@ -1,0 +1,240 @@
+﻿@model Ecom.Models.Item
+
+@{ ViewBag.Title = "Details"; }
+
+<style>
+    .prod-size {
+        font-size: 15px;
+        font-family: sans-serif;
+        font-weight: 400;
+        color: deeppink;
+    }
+    #gallery_01 img {
+        border: 2px solid white;
+    }
+
+    .active img {
+        border: 2px solid #333 !important;
+    }
+
+    .carousel-inner {
+        position: relative;
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .carousel-control.right {
+        right: 0;
+        left: auto;
+        background-image: none !important;
+        background-repeat: repeat-x;
+    }
+
+    .carousel-control.left {
+        left: 0;
+        right: auto;
+        background-image: none !important;
+        background-repeat: repeat-x;
+    }
+
+    #carousel-example-generic {
+        margin: 20px auto;
+        width: 100%;
+    }
+
+    #carousel-custom {
+        width: 400px;
+    }
+
+        #carousel-custom .carousel-indicators {
+            margin: 10px 0 0;
+            overflow: auto;
+            position: static;
+            text-align: left;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
+            min-height: 170px;
+        }
+
+            #carousel-custom .carousel-indicators li {
+                background-color: transparent;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                display: inline-block;
+                height: auto;
+                margin: 0 !important;
+                width: auto;
+            }
+
+                #carousel-custom .carousel-indicators li img {
+                    display: block;
+                    opacity: 0.5;
+                }
+
+                #carousel-custom .carousel-indicators li.active img {
+                    opacity: 1;
+                }
+
+                #carousel-custom .carousel-indicators li:hover img {
+                    opacity: 0.75;
+                }
+
+        #carousel-custom .carousel-outer {
+            position: relative;
+        }
+
+    .carousel-indicators li img {
+        height: 66px;
+        width: 52px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+@*<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".AddLink").click(function () {
+            // Get the id from the link
+            var recordToAdd = $(this).attr("data-id");
+            if (recordToAdd != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/AddToCart", { "id": recordToAdd },
+                    function (data) {
+                        $('#cart-status').text(data.CartCount);
+                    });
+            }
+        });
+    });
+</script>*@
+
+
+
+
+
+
+<div>
+
+    <div class=" col-md-5">
+
+        <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+            <div class='carousel-outer'>
+                <div class='carousel-inner '>
+                    <div class='item active'>
+                        <img src="@Url.Action("RenderImage", new { id = Model.ID })" />
+                    </div>
+
+                    <div class='item'>
+                        <img src="@Url.Action("RenderImage2", new { id = Model.ID })"
+                             alt="" />
+                    </div>
+                    <div class='item'>
+                        <img src="@Url.Action("RenderImage3", new { id = Model.ID })"
+                             alt="" />
+                    </div>
+
+                </div>
+
+                <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+                </a>
+                <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+                </a>
+            </div>
+
+            <ol class='carousel-indicators mCustomScrollbar meartlab'>
+                <li data-target='#carousel-custom' data-slide-to='0' class='active'>
+                    <img src="@Url.Action("RenderImage", new { id = Model.ID })" alt="" />
+                </li>
+                <li data-target='#carousel-custom' data-slide-to='1'>
+                    <img src="@Url.Action("RenderImage2", new { id = Model.ID })"
+                         alt="" />
+                </li>
+                <li data-target='#carousel-custom' data-slide-to='2'>
+                    <img src="@Url.Action("RenderImage3", new { id = Model.ID })"
+                         alt="" />
+                </li>
+
+            </ol>
+        </div>
+    </div>
+
+    <div class="col-lg-offset-0 col-md-offset-1 col-md-5">
+        <div style="background-color: white;padding: 20px;border:1px solid #ddd;">
+
+            <div class="divDet1">
+                <h1 class="proNameView">
+                    @Html.DisplayFor(model => model.Name)
+                </h1>
+                <p class="proPriceView">
+                    @Html.DisplayFor(model => model.Price) DH
+                </p>
+                @{
+                    decimal percentage=0;
+                    if (Model.OldPrice != 0)
+                    {
+                        percentage = (Model.OldPrice - Model.Price) / Model.OldPrice * 100;
+                    }
+                   
+                }
+            <span class="proPriceDiscountView">@(Math.Round(percentage, 2)) %</span>
+                <span class="proOgPriceView">
+                    @Html.DisplayFor(model => model.OldPrice) DH
+                </span>
+
+            </div>
+
+
+            <div class="divDet1">
+
+                <p>
+                    @Html.DisplayFor(model => model.Catagorie.Name)
+
+                </p>
+                <p>
+
+                    @Html.DisplayFor(model => model.Catagorie.ParentName)
+                </p>
+
+                <p>
+                    @Html.DisplayFor(model => model.Brand.Name)
+
+                </p>
+                <p class="prod-size">
+                    @Html.DisplayFor(model => model.Size.Name)
+
+                </p>
+                <p>
+                    @Html.DisplayFor(model => model.Description)
+
+                </p>
+
+            </div>
+            <div>
+
+            </div>
+            <div class="divDet1">
+                <a href="#" class="AddLink btn btn-success"
+                   data-id="@Model.ID" >Ajouter au panier</a>
+
+            </div>
+
+            <div>
+
+            </div>
+
+
+
+
+
+        </div><br />
+         
+
+
+
+
+
+
+    </div>
+</div>
+
+
+

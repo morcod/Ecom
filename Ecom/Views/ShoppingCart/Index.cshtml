@@ -1,0 +1,300 @@
+﻿@model Ecom.ViewModel.ShoppingCartViewModel
+@{ ViewBag.Title = "Panier"; }
+<style>
+    .prod-info-td {
+        min-width: 145px;
+    }
+    .cart-item {
+        background-color: white;
+        -webkit-box-shadow: 0 0 0 1px #ddd;
+        -moz-box-shadow: 0 0 0 1px #ddd;
+        box-shadow: 0 0 0 1px #ddd;
+    }
+    .qtt-td {
+        vertical-align: middle !important;
+        width: 10px;
+    }
+    .panel {
+        background-color: transparent;
+        overflow: auto;
+    }
+    .panel-info {
+        border-color: transparent;
+    }
+    th, td {
+        text-align: inherit;
+        border-color: transparent;
+    }
+        td h2 {
+            text-align: inherit;
+        }
+
+    a:hover, a:focus, a:active {
+        text-decoration: none;
+        color: white;
+    }
+    .RemoveLink {
+        min-width: 30px;
+        height: fit-content;
+        width: fit-content;
+        float: right;
+        margin: 0;
+        background-color: transparent;
+        color: red;
+        border: 0 !important;
+        font-size: xx-large;
+        font-family: cursive;
+        font-weight: bold;
+    }
+
+   
+
+    .RemoveLink:hover {
+        text-decoration: none;
+        color: red;
+    }
+
+    .prod-img {
+        width: 200px !important;
+        height: 250px;
+    }
+    .table {
+        border-collapse: separate;
+        border-spacing: 0 20px;
+        background-color: transparent;
+        border-color: transparent;
+    }
+    }
+    .table h2 {
+        margin: 0;
+    }
+
+        .table h2 a, .table h2 a:hover {
+            color: black;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+    .prod-size {
+        font-size: 15px;
+        font-family: sans-serif;
+        font-weight: 400;
+        color: deeppink;
+    }
+
+    .old-price {
+        font-size: 20px;
+        font-family: sans-serif;
+        font-weight: 400;
+        text-decoration: line-through;
+        color: gray;
+    }
+
+    .par-cat {
+        font-size: 25px
+    }
+
+    .radiosDiv {
+        margin: 12px 0px;
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 15px 5px;
+    }
+
+
+        .radiosDiv label {
+            font-size: 30px;
+            font-family: sans-serif;
+        }
+
+    .price {
+        font-size: 30px;
+        line-height: 30px;
+        font-family: sans-serif;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    .priceDetails label {
+        font-size: 14px;
+        font-weight: 800;
+        font-family: sans-serif;
+    }
+
+    .RemoveLink-td {
+        padding: 0 !important;
+        width: 68px;
+    }
+
+    .priceDetails {
+        font-size: 20px;
+        border: 1px solid #ddd;
+        padding: 15px;
+        background-color: white;
+        margin-top: 36px;
+    }
+
+    .proNameViewCart {
+        font-size: 15px;
+        line-height: 25px;
+        font-family: sans-serif;
+        font-weight: 600;
+        color: #696e80;
+    }
+
+    .priceDetails span {
+        float: right;
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+    .priceGray {
+        font-size: 15px;
+        font-family: sans-serif;
+        font-weight: 400;
+        color: dimgray;
+    }
+
+    .priceGreen {
+        font-size: 15px;
+        font-family: sans-serif;
+        font-weight: 400;
+        color: #20bd99;
+    }
+
+
+
+
+    .prod-img-td {
+        width: 150px;
+        padding: 0 !important;
+        height: 150px;
+    }
+
+    .qtt {
+        color: white;
+        background-color: #008cba;
+        border: 1px solid #008cba;
+        padding: 10px 15px;
+        border-radius: 50%;
+    }
+    #btn-checkout{margin-top:20px;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".RemoveLink").click(function () {
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+                       
+                        if (data.ItemCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        } else {
+                            $('#item-count-' + data.DeleteId).html('<span class="qtt">' + data.ItemCount + '</span>');
+                        }
+                        $('#cart-total').text(data.CartTotal);
+                        $('#update-message').text(data.Message);
+                        $('#cart-status').text(data.CartCount);
+                    });
+            }
+            location.reload();
+        });
+    });
+</script>
+
+
+
+@{ if (Model.CartItems.Count > 0)
+    {
+<div class="col-lg-9">
+    <div class="panel panel-info">
+
+        <div class="panel-body">
+
+           
+
+            <table class="table">
+
+                @foreach (var item in Model.CartItems)
+                {
+<tr id="row-@item.ItemId" class="cart-item">
+    <td class="prod-img-td">
+        <img class="prod-img" src="@Url.Action("RenderImage", new { id = item.ItemId })" alt="">
+    </td>
+    <td class="prod-info-td">
+        <h2>@Html.ActionLink(item.Item.Name, "Details", "Items", new { id = item.ID }, null)</h2>
+
+        <p class="par-cat">@item.Item.Catagorie.ParentName</p>
+
+        <p class="cat">@item.Item.Catagorie.Name</p>
+
+        <p class="prod-size">@item.Item.Size.Name</p>
+
+        <p class="price">
+            @item.Item.Price DH
+        </p>
+        <p class="old-price">@item.Item.OldPrice DH</p>
+    </td>
+
+    <td id="item-count-@item.ItemId" class="qtt-td">
+        <span class="qtt"> @item.Count</span>
+    </td>
+    <td class="RemoveLink-td">
+        <a href="#" class="RemoveLink"
+           data-id="@item.ItemId">
+            X
+        </a>
+    </td>
+</tr>
+}
+
+            </table>
+
+        </div>
+    </div>
+</div>
+<div class="col-lg-3">
+    <div class="priceDetails">
+        <div style="border-bottom: 1px solid #eaeaec;">
+            <h5 class="proNameViewCart">Détails</h5>
+            <div>
+                <label>Montant</label>
+                <span class="float-right priceGray" id="spanCartTotal">
+                    @Model.CartItems.Sum(i => i.Item.OldPrice * i.Count) DH
+                </span>
+            </div>
+            <div>
+                @{var discount = @Model.CartItems.Sum(i => i.Item.OldPrice * i.Count) - @Model.CartItems.Sum(i => i.Item.Price * i.Count);}
+                <label>Réduction</label>
+                <span class="float-right priceGreen" id="spanDiscount">
+                    - @discount DH
+                </span>
+            </div>
+        </div>
+        <div>
+            <div class="proPriceView">
+                <label>Total</label>
+                <span class="float-right" id="spanTotal"> @Model.CartTotal DH</span>
+            </div>
+
+
+        </div>
+
+    </div>
+   
+    <button type="button" class="btn btn-success col-xs-12 " id="btn-checkout" onclick="location.href='@Url.Action("AddressAndPayment", "Checkout")'">
+        Commander
+
+    </button>
+    
+
+</div> }
+                            else
+                            {
+                <div>
+                    <p class="text-center">
+                        Panier vide
+                    </p>
+                </div> } }

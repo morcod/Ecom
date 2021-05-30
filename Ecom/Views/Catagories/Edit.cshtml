@@ -1,0 +1,58 @@
+﻿@model Ecom.Models.Catagorie
+@using Ecom.Extensions
+
+@{ ViewBag.Title = "Modifier la catégorie"; }
+<style>
+    .form-horizontal {
+        background-color: white;
+        padding: 40px;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Catagories", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+@Html.AntiForgeryToken()
+                <div class="col-sm-offset-4 col-sm-4">
+
+                    <div class="form-horizontal">
+
+                        @Html.HiddenFor(model => model.ID)
+
+                        <div class="form-group">
+                            <div>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "Catégorie invalide", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span>Catégorie mère</span>
+                            <div>
+                                @Html.DropDownList("ddlParent", (List<SelectListItem>)ViewBag.ParentID, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <span>
+                                Image
+                            </span>
+                            @Html.FileFor(model => model.File)
+                            @Html.ValidationMessageFor(model => model.File)
+                        </div>
+                        <div class="form-group">
+                            <div class="text-center">
+                                <input type="submit" value="Enregistrer" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    </div>}
+
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }

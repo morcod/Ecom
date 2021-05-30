@@ -1,0 +1,79 @@
+﻿@model Ecom.Models.Catagorie
+<style> 
+.card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
+
+    .card a.btn {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    a {
+        color: inherit
+    }
+
+        a:hover {
+            text-decoration: none;
+            color: inherit
+        }
+
+    .card a.btn:hover {
+        opacity: 0.7;
+    }</style>
+@{ ViewBag.Title = "Boutique"; }
+
+<div class="genre">
+    <h2>@Model.Name</h2>
+    @*<li>
+            <a href="@Url.Action("Details","Items", new { id = item.ID })">
+                <img alt="@item.Name" src="" />
+                <span>@item.Name</span>
+            </a>
+        </li>
+        <ul id="item-list">*@
+    @foreach (var item in Model.Items)
+    {
+
+<div class="col-sm-6 col-md-4 col-lg-3">
+    <a href="@Url.Action("Details","Items", new { id = item.ID })">
+        <div class="card">
+            @if (item.InternalImage != null)
+            {
+            <img src="@Url.Action("RenderItemImage", new { id = item.ID })" alt="" style="width:100%">
+            }
+                <h1>@Html.DisplayFor(modelItem => item.Name)</h1>
+            <p class="price">@Html.DisplayFor(modelItem => item.Price) DH</p>
+            <p> @Html.DisplayFor(modelItem => item.Catagorie.Name)</p>
+            <p> @Html.DisplayFor(modelItem => item.Brand.Name)</p>
+
+            <p>
+                <a href="#" class="AddLink btn btn-success"
+                   data-id="@item.ID">
+                    <i class="lni lni-cart"></i>
+                </a> <!--@Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = item.ID }, new { htmlAttributes = new { @data_toggle = "modal", @data_target = "#myModal" } })-->
+            </p>
+        </div>
+    </a>
+</div>}
+</div>
+
+
+@*</div> </ul>*@
+

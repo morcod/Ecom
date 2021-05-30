@@ -1,0 +1,498 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="/Content/card.css">
+    <link href="~/Content/LineIcons.css" rel="stylesheet" />
+
+    <style>
+        .header-logo a {
+            font-size: 50px;
+        }
+        .header-logo a span {
+            color: #D10024;
+            text-transform: uppercase;
+        }
+        .header {
+            padding-top: 45px;
+            padding-bottom: 45px;
+            background-color: #15161D;
+            margin-top: 45px;
+            border-bottom: 3px solid #D10024;
+        }
+
+        .header-ico {
+            text-align: -webkit-center;
+        }
+
+        .header-logo {
+            text-align: -webkit-center;
+            margin-top: -10px;
+        }
+
+        .header a {
+            display: block;
+            position: relative;
+            width: 90px;
+            text-align: center;
+            color: #FFF;
+        }
+
+            .header a i {
+                font-size: 45px;
+            }
+
+        .table-container {
+            overflow: auto;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .sidebar a .lni {
+            padding: 0 10px;
+        }
+
+        th, td {
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .navbar {
+            background-color: #1E1F29;
+        }
+
+            .navbar li a {
+            }
+
+        table {
+            background-color: white;
+            border: 1px solid #ddd;
+            font-size: 23px;
+        }
+
+        .probrand {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 33px;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        .caption {
+            padding: 30px !important;
+        }
+
+        .proName {
+            font-size: 18px;
+            padding-top: 12px;
+            text-align: center;
+            line-height: 17px;
+            font-family: sans-serif;
+        }
+
+        .proPrice a {
+            margin-left: auto;
+            background-color: orange;
+            color: white;
+            padding: 7px 15px;
+            border-radius: 8px;
+        }
+
+        .proPrice {
+            font-size: 17px;
+            line-height: 17px;
+            font-family: sans-serif;
+            font-weight: 600;
+            display: flex;
+            padding-top: 17px;
+        }
+
+            .proPrice a:hover {
+                color: white;
+            }
+
+        .proOgPrice {
+            font-size: 17px;
+            line-height: 17px;
+            font-family: sans-serif;
+            font-weight: 400;
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .thumbnail {
+            box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+            border-radius: 2px;
+            padding: 0 !important;
+            background-color: transparent;
+            margin-bottom: 60px;
+        }
+
+        .nav li a {
+            font-size: 16px;
+            padding: 17px;
+        }
+
+        .header a i:hover {
+            color: white !important;
+        }
+
+        .proNameView {
+            font-size: 20px;
+            line-height: 25px;
+            font-family: sans-serif;
+            color: #696e80;
+        }
+
+        .proOgPriceView {
+            font-size: 15px;
+            font-family: sans-serif;
+            font-weight: 400;
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .proPriceDiscountView {
+            font-size: 15px;
+            font-family: sans-serif;
+            font-weight: 400;
+            color: white;
+            float: right;
+            background-color: green;
+            border-radius: 50% 0;
+            padding: 10px;
+        }
+
+        .proPriceView {
+            font-size: 16px;
+            line-height: 17px;
+            font-family: sans-serif;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .proPriceDiscount {
+            font-size: 16px;
+            font-family: sans-serif;
+            font-weight: bold;
+            background-color: #079255;
+            color: white;
+            padding: 10px;
+            border-radius: 50% 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        html,
+        body {
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        #wrapper {
+            min-height: 100%;
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .body-content {
+            min-height: 100vh;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 45px; /* Needed for fixed headers/menu */
+            padding-bottom: 60px; /* Height of the footer */
+            flex: 1;
+        }
+
+        .badge {
+            width: 25px;
+            height: 25px;
+            font-size: 17px;
+            line-height: 20px;
+            position: absolute;
+            left: 17px;
+            text-align: center;
+            border-radius: 50%;
+            color: #FFF;
+            background-color: #D10024;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        footer {
+            width: 100%;
+            height: 115px; /* Height of the footer */
+            background-color: #15161D;
+            ;
+            color: white;
+            font-size: 22px;
+            padding: 40px;
+        }
+
+            footer .lni {
+                color: white;
+                font-size: 40px;
+            }
+
+        .btn-search {
+            height: 40px;
+            width: 100px;
+            background: #D10024;
+            color: #FFF;
+            font-weight: 700;
+            border: none;
+            margin-top: -4px;
+            border-radius: 0px 40px 40px 0px;
+        }
+
+        .txt-search {
+            outline: 0;
+            padding: 0px 15px;
+            background: #FFF;
+            border: 1px solid #E4E7ED;
+            height: 40px;
+            margin-right: -4px;
+            border-radius: 40px 0px 0px 40px;
+        }
+
+
+
+        .badge {
+            font-weight: 300;
+            position: absolute;
+            left: 26px;
+        }
+
+        .sidebar {
+            background-color: #15161D;
+            color: #b8c7ce;
+            position: fixed;
+            z-index: 15;
+            height: 100%;
+            padding: 53px 0 0 0 !important;
+        }
+
+        #sidebar-toggle {
+            color: white;
+            padding: 9px 10px;
+            font-size: 22px;
+        }
+
+        .sidebar a, .sidebar-mini a {
+            color: #b8c7ce;
+            text-decoration: none;
+            background-color: transparent;
+            border: 0;
+            width: 100%;
+            font-size: 16px;
+            display: block;
+            padding: 20px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .sidebar .dropdown-container {
+            background-color: #1E1F29;
+        }
+
+            .sidebar .dropdown-container a {
+                margin-left: 35px;
+            }
+
+        .col-xs-2 {
+            padding: 0;
+        }
+
+        .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+        }
+
+        .sidebar a:hover, .btnLogout:hover, .lni-exit:hover, .sidebar-mini a:hover, .sidebar i:hover, .sidebar-mini i:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+            background-color: #1E1F29;
+        }
+
+        .navbar-inverse .dropdown-menu {
+            background-color: #1E1F29;
+        }
+
+            .navbar-inverse .dropdown-menu > li > a:hover, .navbar-inverse .dropdown-menu > .active > a, .navbar-inverse .dropdown-menu > .active > a:hover {
+                background-color: #15161D;
+            }
+
+        .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+            color: #ffffff;
+            background-color: #15161D;
+        }
+
+        .dropdown-container {
+            display: none;
+        }
+
+        .header .btn:hover, .header .btn:focus {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+
+
+
+        $(document).ready(function myfunction() {
+
+            $('.dropdown-btn').on('click', function () {
+                $('.dropdown-container').animate({ height: 'toggle' }, 350);
+            })
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".AddLink").click(function () {
+                // Get the id from the link
+                var recordToAdd = $(this).attr("data-id");
+                if (recordToAdd != '') {
+                    // Perform the ajax post
+                    $.post("/ShoppingCart/AddToCart", { "id": recordToAdd },
+                        function (data) {
+                            $('#cart-status').text(data.CartCount);
+                        });
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div>
+        <div class="bs-component">
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a id="sidebar-toggle" class="btn"><i class="lni lni-menu"></i></a>
+                    }
+                </div>
+
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav">
+                    </ul>
+
+                    @Html.Partial("_LoginPartial")
+
+                </div>
+
+            </div>
+
+        </div>
+        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="col-xs-2">
+
+                <div class="sidebar">
+
+                    <a href="@Url.Action("Index", "Orders")"><i class="lni lni-customer"></i>Commandes</a>
+
+                    <a href="@Url.Action("Edit", "Countdowns", new { id = 2 })"><i class="lni lni-alarm-clock"></i>Compte à rebours</a>
+                    <a class="dropdown-btn">
+                        <i class="lni lni-keyboard"></i> Gestion
+                    </a>
+                    <div class="dropdown-container">
+                        <a href="@Url.Action( "Index", "Brands")">Marques</a>
+                        <a href="@Url.Action( "Index", "Sizes")">Tailles</a>
+                        <a href="@Url.Action("Index", "Items")">Articles</a>
+                        <a href="@Url.Action("Index", "Catagories")">Catégories</a>
+                    </div>
+                    <a href="@Url.Action("Index", "Analytics")"><i class="lni lni-stats-up"></i>Statistiques</a>
+                    <a href="@Url.Action( "Index", "UsersAdmin")"><i class="lni lni-users"></i>Utilisateurs</a>
+
+                </div>
+            </div>}
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3">
+                        <div class="header-logo">
+                            <a href="@Url.Action( "Index", "Home")"><span>e</span>com</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        @using (Html.BeginForm("Index", "Items", FormMethod.Get))
+                        {
+
+                            <div class="form-group text-center">
+                                <div class="input-group center-block">
+
+                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "txt-search", @placeholder = "Chercher un article" })
+                                    <button type="submit" style="padding: 10px;" class="btn btn-search"><i class="lni lni-search-alt"></i></button>
+
+                                </div>
+                            </div>}
+                    </div>
+                    <div class="col-md-3">
+                        
+                        <div class="header-ico ">
+                            @{Html.RenderAction("CartSummary", "ShoppingCart");}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+
+
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+
+        <footer>
+            <div class="container ">
+                <p class="pull-right "><a href="#" id="backToTop"><i class="lni lni-arrow-up-circle"></i></a></p>
+                <p>&copy; @DateTime.Now.Year . Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
+
+        $(document).ready(function myfunction() {
+            $('.sidebar').animate({ width: 'toggle' }, 500);
+
+            $('#sidebar-toggle').on('click', function () {
+                $('.sidebar').animate({ width: 'toggle' }, 350);
+            })
+        });
+
+    </script>
+    <script src="~/Scripts/lightslider.js"></script>
+
+
+</body>
+</html>
